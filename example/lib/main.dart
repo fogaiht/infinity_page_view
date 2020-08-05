@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 300.0,
               child: InfinityPageView(
-                itemBuilder: (BuildContext context, int index) {
+                itemBuilder: (context, index) {
                   switch (index) {
                     case 0:
                       return Image.network(
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 itemCount: itemCount,
-                onPageChanged: (int index) {
+                onPageChanged: (index) {
                   setState(() {
                     label = "${index + 1}/${itemCount}";
                   });
