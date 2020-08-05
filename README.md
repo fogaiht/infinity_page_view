@@ -30,27 +30,27 @@ And install it using flutter packages get on your project folder. After that, ju
  
  ...
  
- InfinityPageController infinityPageController = new InfinityPageController(initialPage: 0);
+ InfinityPageController infinityPageController = InfinityPageController(initialPage: 0);
  ...
  
  
- new SizedBox(
+ SizedBox(
    height: 300.0,
-   child: new InfinityPageView(
-     itemBuilder: (BuildContext context, int index) {
+   child: InfinityPageView(
+     itemBuilder: (context, index) {
        switch (index) {
          case 0:
-           return new Image.network(
+           return Image.network(
              "http://via.placeholder.com/350x150",
              fit: BoxFit.fill,
            );
          case 1:
-           return new Image.network(
+           return Image.network(
              "http://via.placeholder.com/250x100",
              fit: BoxFit.fill,
            );
        }
-       return new Image.network(
+       return Image.network(
          "http://via.placeholder.com/288x188",
          fit: BoxFit.fill,
        );
