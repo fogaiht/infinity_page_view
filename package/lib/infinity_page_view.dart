@@ -20,57 +20,59 @@ class InfinityPageView extends StatefulWidget {
 
   InfinityPageView({
     Key key,
-    this.scrollDirection: Axis.horizontal,
-    this.reverse: false,
+    this.scrollDirection = Axis.horizontal,
+    this.reverse = false,
     this.controller,
     this.physics,
-    this.pageSnapping: true,
+    this.pageSnapping = true,
     this.onPageChanged,
     @required this.itemBuilder,
     @required this.itemCount,
-  }) : assert(itemCount != null) ,assert(itemBuilder!=null);
+  })  : assert(itemCount != null),
+        assert(itemBuilder != null);
 
   @override
   State<StatefulWidget> createState() {
-    return new _InfinityPageViewState();
+    return _InfinityPageViewState();
   }
 }
 
-class InfinityPageController  {
+class InfinityPageController {
   PageController pageController;
 
   int itemCount;
   int realIndex;
 
   InfinityPageController({
-    int initialPage: 0,
-    bool keepPage: true,
-    double viewportFraction: 1.0,
-  })  : realIndex = initialPage + kMiddleValue{
-    pageController = new PageController(
-        initialPage: initialPage + kMiddleValue,
-        keepPage: keepPage,
-        viewportFraction: viewportFraction);
+    int initialPage = 0,
+    bool keepPage = true,
+    double viewportFraction = 1.0,
+  }) : realIndex = initialPage + kMiddleValue {
+    pageController = PageController(
+      initialPage: initialPage + kMiddleValue,
+      keepPage: keepPage,
+      viewportFraction: viewportFraction,
+    );
   }
 
   int get page {
-    return calcIndex(this.realIndex);
+    return calcIndex(realIndex);
   }
 
   int calcIndex(int realIndex) {
-    if(itemCount == 0)return 0;
-    int index = (realIndex - kMiddleValue) % this.itemCount;
+    if (itemCount == 0) return 0;
+    int index = (realIndex - kMiddleValue) % itemCount;
     if (index < 0) {
-      index += this.itemCount;
+      index += itemCount;
     }
     return index;
   }
 
   Future<Null> animateToPage(
-      int page, {
-        @required Duration duration,
-        @required Curve curve,
-      }) {
+    int page, {
+    @required Duration duration,
+    @required Curve curve,
+  }) {
     assert(page != null);
     assert(curve != null);
     assert(duration != null);
@@ -79,13 +81,12 @@ class InfinityPageController  {
     int offset = page - this.page;
 
     if (offset == 0) {
-      return new Future.value(null);
+      return Future.value(null);
     }
 
     int destPage = offset + realIndex;
 
-    return pageController.animateToPage(destPage,
-        duration: duration, curve: curve);
+    return pageController.animateToPage(destPage, duration: duration, curve: curve);
   }
 
   void jumpToPage(int value) {
@@ -100,16 +101,11 @@ class InfinityPageController  {
 }
 
 class _InfinityPageViewState extends State<InfinityPageView> {
-
-
   InfinityPageController controller;
-
-
 
   void _onPageChange(int realIndex) {
     widget.controller.realIndex = realIndex;
-    if(widget.onPageChanged!=null)
-      widget.onPageChanged(widget.controller.page);
+    if (widget.onPageChanged != null) widget.onPageChanged(widget.controller.page);
   }
 
   Widget _itemBuild(BuildContext context, int index) {
@@ -119,7 +115,7 @@ class _InfinityPageViewState extends State<InfinityPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return new PageView.builder(
+    return PageView.builder(
       key: widget.key,
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
@@ -134,10 +130,9 @@ class _InfinityPageViewState extends State<InfinityPageView> {
 
   @override
   void initState() {
-
-    if(widget.controller==null){
-      controller = new InfinityPageController();
-    }else{
+    if (widget.controller == null) {
+      controller = InfinityPageController();
+    } else {
       controller = widget.controller;
     }
     controller.itemCount = widget.itemCount;
@@ -146,9 +141,8 @@ class _InfinityPageViewState extends State<InfinityPageView> {
 
   @override
   void didUpdateWidget(InfinityPageView oldWidget) {
-
-    if(widget.controller != controller ){
-      if(widget.controller!=null){
+    if (widget.controller != controller) {
+      if (widget.controller != null) {
         controller = widget.controller;
       }
     }
@@ -158,7 +152,7 @@ class _InfinityPageViewState extends State<InfinityPageView> {
 
   @override
   void dispose() {
-    if(controller!=null && controller!=widget.controller){
+    if (controller != null && controller != widget.controller) {
       controller.dispose();
     }
     super.dispose();
